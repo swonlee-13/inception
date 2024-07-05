@@ -1,0 +1,21 @@
+FROM alpine:3.19
+
+RUN apk add --no-cache mariadb mariadb-client
+
+RUN mkdir -p /var/run/mysqld && \
+	chown -R mysql:mysql /var/run/mysqld && \
+	chmod 777 /var/run/mysqld
+
+RUN mkdir -p /var/lib/mysql && \
+	chown -R mysql:mysql /var/lib/mysql
+
+COPY ./tools/50-server.cnf /etc/mysql/mariadb.conf
+
+USER mysql
+
+COPY ./tools/mariadb_setting.sh /var/lib/mysql/run/mariadb_setting.sh
+
+VOLUME /var/lib/mysql
+
+# ENTRYPOINT [ "executable" ]
+# CMD [ "executable" ]
