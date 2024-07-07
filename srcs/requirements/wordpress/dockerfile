@@ -1,0 +1,8 @@
+FROM alpine:3.19
+
+RUN apk update && \
+	apk upgrade && \
+	apk add --no-cache php php-fpm php-opache php-mysqli
+
+RUN mkdir -p /var/www/html && \
+	# chown -R wp-data:wp-data /var/www/html && \

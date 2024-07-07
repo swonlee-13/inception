@@ -9,6 +9,8 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - docker_net
 
   wordpress:
     restart: always
@@ -17,12 +19,13 @@ services:
     volumes:
       - ./requirements/wordpress:/tmp/www
       - wordpress_db:var/www/html
-      - wordpress:
     build: ./requirements/wordpress
     environment:
       MYSQL_DB_HOST: mariadb:3306
       MYSQL_DB_USER: ${MYSQL_USER}
       MYSQL_DB_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - docker_net
 
   nginx:
     restart: always
@@ -35,6 +38,8 @@ services:
       - ./requirements/nginx/tools:/etc/nginx/tools:ro
     ports:
       - "443:443"
+    networks:
+      - docker_net
 
 
 volumes:
@@ -51,3 +56,7 @@ volumes:
       type: none
       device: ./requirements/wordpress
       o: bind,rw
+
+networks:
+  docker_net:
+    driver: bridge
