@@ -1,26 +1,26 @@
 FROM alpine:3.19
 
-RUN apk update && \
-	apk upgrade && \
-	apk add --no-cache mariadb mariadb-client
+RUN apk update && apk upgrade && \
+	apk add --no-cache mariadb &&\
+	apk add --no-cache mariadb-client
 
 RUN mkdir -p /var/run/mysqld && \
+	chmod 755 /var/run/mysqld && \
 	chown -R mysql:mysql /var/run/mysqld && \
-	chmod 777 /var/run/mysqld
+	chmod 777 /var/run/mysql
 
+RUN mkdir -p /var/lib/mysql
 
-RUN mkdir -p /var/lib/mysql && \
-chown -R mysql:mysql /var/lib/mysql
+COPY ./tools/50-server.cnf /etc/my.cnf
+RUN chmod 777 /etc/my.cnf
 
-VOLUME /var/lib/mysql
+COPY ./tools/execute_db.sh /execute_db.sh
+RUN chmod +x /execute_db
 
-COPY ./tools/50-server.cnf /etc/my.cnf.d/mariadb-server.conf
-RUN chmod 644 /etc/my.cnf.d/mariadb-server.cnf
+EXPOSE 3306
 
-COPY ./tools/mariadb_setting.sh /var/lib/mysql/run/mariadb_setting.sh
-RUN chmod 777 /etc/my.cnf.d/mariadb-server.cnf
+RUN ./execute_db.sh && rm ./execute_db.sh
 
 USER mysql
 
-# ENTRYPOINT [ "executable" ]
-# CMD [ "executable" ]
+CMD [ "/usr/bin/mysqld", "--skip-log-error" ]

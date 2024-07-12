@@ -3,12 +3,7 @@ services:
     restart: always
     build: ./requirements/mariadb
     volumes:
-      - mariadb_db:/var/lib/mysql
-    environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: ${MYSQL_RANDOM_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      - mariadb:/var/lib/mysql
     networks:
       - docker_net
 
@@ -17,13 +12,8 @@ services:
     depends_on:
       - mariadb
     volumes:
-      - ./requirements/wordpress:/tmp/www
-      - wordpress_db:var/www/html
+      - wordpress:var/www/html
     build: ./requirements/wordpress
-    environment:
-      MYSQL_DB_HOST: mariadb:3306
-      MYSQL_DB_USER: ${MYSQL_USER}
-      MYSQL_DB_PASSWORD: ${MYSQL_PASSWORD}
     networks:
       - docker_net
 
@@ -34,8 +24,7 @@ services:
     build:
       ./requirements/nginx
     volumes:
-      - ./requirements/nginx/conf:/etc/nginx/conf.d:ro
-      - ./requirements/nginx/tools:/etc/nginx/tools:ro
+      - wordpress:/tmp/www/html
     ports:
       - "443:443"
     networks:
@@ -43,14 +32,14 @@ services:
 
 
 volumes:
-  mariadb_db:
+  mariadb:
     driver: local
     driver_opts:
       type: none
       device: ./requirements/mariadb
       o: bind,rw
 
-  wordpress_db:
+  wordpress:
     driver: local
     driver_opts:
       type: none

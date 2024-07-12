@@ -1,7 +1,17 @@
 FROM alpine:3.19
 
+EXPOSE 9000
+
 RUN apk update && \
 	apk upgrade && \
 	apk add --no-cache nginx
 
-ADD ./conf/ /etc/nginx/
+RUN mkdir -p /var/www/html && \
+	chmod -R 755 /var/www/html && \
+	chown -R nginx:nginx /var/www/html /var/log/nginx /var/run/nginx
+
+ADD ./conf/nginx.conf /etc/nginx/
+
+USER nginx
+
+CMD [ "nginx", "-g", "daemon off" ]
