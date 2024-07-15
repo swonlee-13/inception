@@ -1,7 +1,6 @@
 FROM alpine:3.19
 
 EXPOSE 3306
-
 EXPOSE 9000
 
 RUN apk update && \
@@ -15,34 +14,31 @@ RUN apk update && \
 			php82-cgi \
 			php82-phar
 
+COPY ./tools/www.conf /etc/php82/php-fpm.d/www.conf
+
+COPY ./tools/execute_wp.sh /tmp/execute_wp.sh
+
 RUN addgroup -S wordpress && \
 	adduser -S -G wordpress -H -s /sbin/nologin wordpress && \
-	mkdir -p /var/www/html/wordpress && \
+	mkdir -p /var/www/html && \
 	chown -R wordpress:wordpress /var/www/html
+
+WORKDIR /var/www/html
+
+RUN	wget https://wordpress.org/latest.zip && \
+    unzip latest.zip && \
+    cp -rf wordpress/* . && \
+    rm -rf wordpress latest.zip
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	&& chmod +x wp-cli.phar \
 	&& mv wp-cli.phar /bin/wp
 
+RUN chmod 777 /tmp/execute_wp.sh && \
+	/bin/sh /tmp/execute_wp.sh && \
+	rm /tmp/execute_wp.sh
+
 USER wordpress
 
-RUN wp config create \
-		--dbname=${MYSQL_DB_NAME} \
-		--dbuser=${MYSQL_USER} \
-		--dbpass=${MYSQL_DB_PASSWORD} \
-		--dbhost=${MYSQL_DB_HOST} \
-		--path=/var/www/html/wordpress \
-		--skip-check
 
-RUN cd /var/www/html/wordpress && \
-	wp core install \
-		--url=seongwol.42.kr \
-		--title="inception" \
-		--admin_user=seongwol \ 
-		--admin_password=1234 \
-		--admin_email=gbssw13@gmail.com \
-		--locale=ko_KR && \
-	wp user create evaluator@example.com \
-		--user_pass=1234
-
-CMD [ "php82-fpm" ]
+CMD [ "php-fpm82", "F"]

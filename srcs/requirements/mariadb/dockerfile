@@ -7,15 +7,15 @@ RUN apk update && apk upgrade && \
 RUN mkdir -p /var/run/mysqld && \
 	chmod 755 /var/run/mysqld && \
 	chown -R mysql:mysql /var/run/mysqld && \
-	chmod 777 /var/run/mysql
+	chmod 644 /var/run/mysqld
 
 RUN mkdir -p /var/lib/mysql
 
 COPY ./tools/50-server.cnf /etc/my.cnf
-RUN chmod 777 /etc/my.cnf
+RUN chmod 644 /etc/my.cnf
 
 COPY ./tools/execute_db.sh /execute_db.sh
-RUN chmod +x /execute_db
+RUN chmod +x /execute_db.sh
 
 EXPOSE 3306
 

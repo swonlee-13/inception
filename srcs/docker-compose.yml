@@ -12,7 +12,7 @@ services:
     depends_on:
       - mariadb
     volumes:
-      - wordpress:var/www/html
+      - wordpress:/var/www/html
     build: ./requirements/wordpress
     networks:
       - docker_net
@@ -30,20 +30,19 @@ services:
     networks:
       - docker_net
 
-
 volumes:
   mariadb:
     driver: local
     driver_opts:
       type: none
-      device: ./requirements/mariadb
+      device: ${PWD}/requirements/mariadb/data
       o: bind,rw
 
   wordpress:
     driver: local
     driver_opts:
       type: none
-      device: ./requirements/wordpress
+      device: ${PWD}/requirements/wordpress/data
       o: bind,rw
 
 networks:
