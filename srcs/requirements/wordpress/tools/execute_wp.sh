@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [! -d "/var/lib/sql/wordpress" ]; then
+if [! -f "/var/www/wp-config.php" ]; then
 	cd /var/www/html
 	
 	wp config create \
@@ -8,6 +8,7 @@ if [! -d "/var/lib/sql/wordpress" ]; then
 		--dbuser=${MYSQL_USER} \
 		--dbpass=${MYSQL_DB_PASSWORD} \
 		--dbhost=${MYSQL_DB_HOST} \
+		--dbport=${MYSQL_DB_PORT}
 		--path=/var/www/html/ \
 		--skip-check
 

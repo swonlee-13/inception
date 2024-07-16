@@ -1,5 +1,6 @@
 #!bin/sh
 
+
 if [ ! -d "/var/lib/mysql/wordpress" ]; then
 
         chown -R mysql:mysql /var/lib/mysql

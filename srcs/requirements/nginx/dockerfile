@@ -4,6 +4,7 @@ RUN apk update && \
 	apk upgrade && \
 	apk add --no-cache nginx && \
 	mkdir -p /var/www/html && \
+	mkdir -p /var/lib/nginx/var/run/ && \
 	chmod -R 755 /var/www/html && \
 	chown -R nginx:nginx /var/www/html /var/log/nginx /var/run/nginx
 
@@ -16,6 +17,14 @@ RUN	mkdir -p /etc/nginx/ssl && \
 		-out /etc/nginx/ssl/seongwol.42.fr.crt \
 		-subj "/C=KR/ST=Seoul/L=Gangnam-gu/O=42Ecole/OU=42Seoul/CN=seongwol.42.fr"
 
-USER nginx
+RUN chmod 644 /etc/nginx/ssl/seongwol.42.fr.key && \
+	chmod 644 /etc/nginx/ssl/seongwol.42.fr.crt && \
+	chown nginx:nginx /etc/nginx/ssl/seongwol.42.fr.key && \
+	chown nginx:nginx /etc/nginx/ssl/seongwol.42.fr.crt && \
+	chown -R nginx:nginx /var/lib/nginx/
+
+USER root
+
+EXPOSE 80 443
 
 CMD [ "nginx", "-g", "daemon off;" ]

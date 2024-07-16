@@ -38,7 +38,10 @@ RUN chmod 777 /tmp/execute_wp.sh && \
 	/bin/sh /tmp/execute_wp.sh && \
 	rm /tmp/execute_wp.sh
 
-USER wordpress
+RUN addgroup -S nginx && adduser -S nginx -G nginx
 
+RUN mkdir -p /var/log/php82 && \
+    chown -R nginx:nginx /var/log/php82 && \
+    chmod 777 /var/log/php82
 
-CMD [ "php-fpm82", "F"]
+CMD [ "php-fpm82", "-F"]

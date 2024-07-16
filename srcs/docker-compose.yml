@@ -1,5 +1,6 @@
 services:
   mariadb:
+    container_name: mariadb
     restart: always
     build: ./requirements/mariadb
     volumes:
@@ -8,6 +9,7 @@ services:
       - docker_net
 
   wordpress:
+    container_name: wordpress
     restart: always
     depends_on:
       - mariadb
@@ -18,6 +20,7 @@ services:
       - docker_net
 
   nginx:
+    container_name: nginx
     restart: always
     depends_on:
       - wordpress
@@ -27,6 +30,7 @@ services:
       - wordpress:/tmp/www/html
     ports:
       - "443:443"
+      - "80:80"
     networks:
       - docker_net
 
