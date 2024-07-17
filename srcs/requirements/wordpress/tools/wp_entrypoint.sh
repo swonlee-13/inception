@@ -1,5 +1,6 @@
 #!/bin/sh
 
+if [ ! -f "/var/www/html/xmlrpc.php" ]; then
 wp core install \
 	--allow-root \
 	--url="seongwol.42.fr" \
@@ -9,5 +10,6 @@ wp core install \
 	--locale=ko_KR
 
 wp user create evaluator evaluator@student.42seoul.kr --user_pass=1234
+fi
 
 exec "$@"
