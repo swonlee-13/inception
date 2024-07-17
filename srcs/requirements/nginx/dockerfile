@@ -1,5 +1,8 @@
 FROM alpine:3.19
 
+ARG CERT_KEY \
+	CERT_CRT
+
 RUN apk update && \
 	apk upgrade && \
 	apk add --no-cache nginx && \
@@ -11,20 +14,17 @@ RUN apk update && \
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
 RUN	mkdir -p /etc/nginx/ssl && \
-	apk add --no-cache openssl && \
-	openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-		-keyout /etc/nginx/ssl/seongwol.42.fr.key \
-		-out /etc/nginx/ssl/seongwol.42.fr.crt \
-		-subj "/C=KR/ST=Seoul/L=Gangnam-gu/O=42Ecole/OU=42Seoul/CN=seongwol.42.fr"
+	echo -e "$CERT_KEY" > /etc/nginx/ssl/seongwol.42.fr.key && \
+	echo -e "$CERT_CRT" > /etc/nginx/ssl/seongwol.42.fr.crt
 
-RUN chmod 644 /etc/nginx/ssl/seongwol.42.fr.key && \
-	chmod 644 /etc/nginx/ssl/seongwol.42.fr.crt && \
+RUN	chmod 600 /etc/nginx/ssl/seongwol.42.fr.key && \
+	chmod 600 /etc/nginx/ssl/seongwol.42.fr.crt && \
 	chown nginx:nginx /etc/nginx/ssl/seongwol.42.fr.key && \
 	chown nginx:nginx /etc/nginx/ssl/seongwol.42.fr.crt && \
 	chown -R nginx:nginx /var/lib/nginx/
 
 USER root
 
-EXPOSE 80 443
+EXPOSE 443
 
 CMD [ "nginx", "-g", "daemon off;" ]

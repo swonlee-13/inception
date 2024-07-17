@@ -2,7 +2,13 @@ services:
   mariadb:
     container_name: mariadb
     restart: always
-    build: ./requirements/mariadb
+    build:
+      context: ./requirements/mariadb
+      args:
+        - DB_NAME=${DB_NAME}
+        - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+        - DB_USER=${DB_USER}
+        - DB_PASSWORD=${DB_PASSWORD}
     volumes:
       - mariadb:/var/lib/mysql
     networks:
@@ -15,7 +21,16 @@ services:
       - mariadb
     volumes:
       - wordpress:/var/www/html
-    build: ./requirements/wordpress
+    env_file:
+      - .env
+    build:
+      context: ./requirements/wordpress
+      args:
+        - DB_NAME=${DB_NAME}
+        - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+        - DB_USER=${DB_USER}
+        - DB_PASSWORD=${DB_PASSWORD}
+        - DB_HOST=${DB_HOST}
     networks:
       - docker_net
 
@@ -25,12 +40,16 @@ services:
     depends_on:
       - wordpress
     build:
-      ./requirements/nginx
+      context: ./requirements/nginx
+      args:
+        - CERT_KEY=${CERT_KEY}
+        - CERT_CRT=${CERT_CRT}
     volumes:
-      - wordpress:/tmp/www/html
+        - wordpress:/var/www/html
     ports:
       - "443:443"
-      - "80:80"
+    expose:
+      - "443"
     networks:
       - docker_net
 

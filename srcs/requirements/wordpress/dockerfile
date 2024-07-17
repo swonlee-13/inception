@@ -3,6 +3,12 @@ FROM alpine:3.19
 EXPOSE 3306
 EXPOSE 9000
 
+ARG DB_NAME \
+	DB_ROOT_PASSWORD \
+	DB_USER \
+	DB_PASSWORD \
+	DB_HOST
+
 RUN apk update && \
 	apk upgrade && \
 	apk add --no-cache \
@@ -12,10 +18,13 @@ RUN apk update && \
 			php82-mysqli \
 			fcgi \
 			php82-cgi \
-			php82-phar
+			php82-phar \
+			php82-mbstring \
+			php82-iconv && \
+	apk add --no-cache mariadb-client
 
 COPY ./tools/www.conf /etc/php82/php-fpm.d/www.conf
-
+COPY ./tools/wp_entrypoint.sh /tmp/wp_entrypoint.sh
 COPY ./tools/execute_wp.sh /tmp/execute_wp.sh
 
 RUN addgroup -S wordpress && \
@@ -44,4 +53,5 @@ RUN mkdir -p /var/log/php82 && \
     chown -R nginx:nginx /var/log/php82 && \
     chmod 777 /var/log/php82
 
-CMD [ "php-fpm82", "-F"]
+ENTRYPOINT ["/bin/sh", "/tmp/wp_entrypoint.sh"]
+CMD ["php-fpm82", "-F"]
