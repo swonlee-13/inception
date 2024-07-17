@@ -55,6 +55,7 @@ services:
 
 volumes:
   mariadb:
+    name: mariadb
     driver: local
     driver_opts:
       type: none
@@ -62,6 +63,7 @@ volumes:
       o: bind,rw
 
   wordpress:
+    name: wordpress
     driver: local
     driver_opts:
       type: none
