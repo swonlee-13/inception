@@ -8,4 +8,7 @@ echo "${FTP_USER}:${FTP_PASS}" | chpasswd
 
 echo "${FTP_USER}" >> /etc/vsftpd.userlist
 
+echo -e "$CERT_KEY" > /etc/ssl/seongwol.42.fr.key
+echo -e "$CERT_CRT" > /etc/ssl/seongwol.42.fr.crt
+
 exec "$@"

@@ -48,8 +48,14 @@ services:
     build:
       context: ./requirements/bonus/ftp
     ports:
-      - "21:21"
-      - "21000-21010:21000-21010"
+      - target: 21
+        published: 21
+        protocol: tcp
+        mode: host
+      - target: 30000
+        published: 30000
+        protocol: tcp
+        mode: host
     volumes:
       - wordpress:/var/www/html
     env_file:
