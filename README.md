@@ -2,7 +2,7 @@
  - Goal
 1. Study docker, docker-compose and Dockerfile.
 
-2. build 3 containers from Debian or Alpine Linux.
+2. build 3 containers from Debian or Alpine Linux(My choice).
    - nginx
    - php + wordpress
    - mariadb
