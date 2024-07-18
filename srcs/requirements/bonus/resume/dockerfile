@@ -15,6 +15,6 @@ RUN	chmod -R 755 /var/www/html && \
 	chown -R nginx:nginx /var/log/nginx /var/run/nginx && \
 	chown -R nginx:nginx /var/lib/nginx/
 	
-EXPOSE 8080
+EXPOSE 1234
 
 CMD [ "nginx", "-g", "daemon off;" ]

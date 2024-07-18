@@ -1,0 +1,29 @@
+FROM alpine:3.19
+
+RUN apk update && apk upgrade && \
+	apk add --no-cache	php82 \
+	    php82-common \
+	    php82-session \
+	    php82-iconv \
+	    php82-gd \
+	    php82-curl \
+	    php82-xml \
+	    php82-mysqli \
+	    php82-imap \
+	    php82-cgi \
+	    php82-pdo \
+	    php82-pdo_mysql \
+	    php82-soap \
+	    php82-posix \
+	    php82-gettext \
+	    php82-ldap \
+	    php82-ctype \
+	    php82-dom \
+	    php82-simplexml
+
+WORKDIR /var/www
+
+RUN wget https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php && \
+	mv adminer-4.8.1.php index.php && chown -R root:root /var/www/
+
+CMD	[ "php", "-S", "[::]:8080", "-t", "/var/www" ]
