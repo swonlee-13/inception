@@ -1,5 +1,7 @@
-FROM alpine:3.19
+FROM alpine:3.14
 
-RUN apk update && \
-	apk upgrade && \
-	apk add php82 php82-redis-server 
+RUN apk add --no-cache redis
+
+COPY conf/redis.conf /etc/redis.conf
+
+CMD ["redis-server", "/etc/redis.conf"]

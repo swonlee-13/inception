@@ -16,7 +16,7 @@ if [ "$1" == "--delete" ]; then
 fi
 
 if [ ! -d "/Users/seongwol/Documents/volume/wordpress/data" ]; then
-	mkdir -p $BASE_DIR/wordpress/data
+	mkdir -p $BASE_DIR/wordpress/data/
 	mkdir -p $BASE_DIR/mariadb/data
 fi
 

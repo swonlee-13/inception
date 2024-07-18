@@ -33,7 +33,30 @@ services:
         - DB_HOST=${DB_HOST}
     networks:
       - docker_net
+  
+  redis:
+    container_name: redis
+    build: ./requirements/bonus/redis
+    restart: always
+    networks:
+      - docker_net
+    expose:
+      - 6379
 
+  ftp:
+    container_name: ftp    
+    build:
+      context: ./requirements/bonus/ftp
+    ports:
+      - "21:21"
+      - "21000-21010:21000-21010"
+    volumes:
+      - wordpress:/var/www/html
+    env_file:
+      - .env
+    networks:
+      - docker_net
+    
   nginx:
     container_name: nginx
     restart: always
@@ -45,13 +68,22 @@ services:
         - CERT_KEY=${CERT_KEY}
         - CERT_CRT=${CERT_CRT}
     volumes:
-        - wordpress:/var/www/html
+      - wordpress:/var/www/html
     ports:
       - "443:443"
     expose:
       - "443"
     networks:
       - docker_net
+
+  resume:
+    container_name: resume
+    restart: always
+    build: ./requirements/bonus/resume
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
 
 volumes:
   mariadb:

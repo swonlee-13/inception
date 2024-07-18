@@ -3,28 +3,22 @@ FROM alpine:3.19
 ARG CERT_KEY \
 	CERT_CRT
 
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
+
 RUN apk update && \
 	apk upgrade && \
 	apk add --no-cache nginx && \
-	mkdir -p /var/www/html && \
+	mkdir -p /var/www/html/resume/ && \
 	mkdir -p /var/lib/nginx/var/run/ && \
 	chmod -R 755 /var/www/html && \
-	chown -R nginx:nginx /var/www/html /var/log/nginx /var/run/nginx
-
-COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-
-RUN	mkdir -p /etc/nginx/ssl && \
+	chown -R nginx:nginx /var/www/html /var/log/nginx /var/run/nginx && \
+	mkdir -p /etc/nginx/ssl && \
 	echo -e "$CERT_KEY" > /etc/nginx/ssl/seongwol.42.fr.key && \
-	echo -e "$CERT_CRT" > /etc/nginx/ssl/seongwol.42.fr.crt
-
-RUN	chmod 600 /etc/nginx/ssl/seongwol.42.fr.key && \
+	echo -e "$CERT_CRT" > /etc/nginx/ssl/seongwol.42.fr.crt && \
+	chmod 600 /etc/nginx/ssl/seongwol.42.fr.key && \
 	chmod 600 /etc/nginx/ssl/seongwol.42.fr.crt && \
 	chown nginx:nginx /etc/nginx/ssl/seongwol.42.fr.key && \
 	chown nginx:nginx /etc/nginx/ssl/seongwol.42.fr.crt && \
 	chown -R nginx:nginx /var/lib/nginx/
-
-USER root
-
-EXPOSE 443
 
 CMD [ "nginx", "-g", "daemon off;" ]

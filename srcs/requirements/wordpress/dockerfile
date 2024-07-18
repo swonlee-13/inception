@@ -11,8 +11,7 @@ ARG DB_NAME \
 
 RUN apk update && \
 	apk upgrade && \
-	apk add --no-cache \
-			php82 \
+	apk add --no-cache php82 \
 			php82-fpm \
 			php82-opcache \
 			php82-mysqli \
@@ -20,12 +19,15 @@ RUN apk update && \
 			php82-cgi \
 			php82-phar \
 			php82-mbstring \
-			php82-iconv && \
-	apk add --no-cache mariadb-client
+			php82-iconv \
+			redis && \
+	apk add --no-cache mariadb-client && \
+	apk add --no-cache php82-pdo php82-pdo_mysql
 
 COPY ./tools/www.conf /etc/php82/php-fpm.d/www.conf
 COPY ./tools/wp_entrypoint.sh /tmp/wp_entrypoint.sh
 COPY ./tools/execute_wp.sh /tmp/execute_wp.sh
+COPY ./tools/wp_redis_config.sh /tmp/wp_redis_config.sh
 
 RUN addgroup -S wordpress && \
 	adduser -S -G wordpress -H -s /sbin/nologin wordpress && \
@@ -37,21 +39,20 @@ WORKDIR /var/www/html
 RUN	wget https://wordpress.org/latest.zip && \
     unzip latest.zip && \
     cp -rf wordpress/* . && \
-    rm -rf wordpress latest.zip
-
-RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    rm -rf wordpress latest.zip && \
+	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	&& chmod +x wp-cli.phar \
-	&& mv wp-cli.phar /bin/wp
-
-RUN chmod 777 /tmp/execute_wp.sh && \
+	&& mv wp-cli.phar /bin/wp && \
+	chmod 777 /tmp/execute_wp.sh && \
 	/bin/sh /tmp/execute_wp.sh && \
-	rm /tmp/execute_wp.sh
-
-RUN addgroup -S nginx && adduser -S nginx -G nginx
-
-RUN mkdir -p /var/log/php82 && \
+	rm /tmp/execute_wp.sh && \
+	addgroup -S nginx && adduser -S nginx -G nginx && \
+	mkdir -p /var/log/php82 && \
     chown -R nginx:nginx /var/log/php82 && \
-    chmod 777 /var/log/php82
+    chmod 777 /var/log/php82 && \
+	chmod +x /tmp/wp_redis_config.sh && \
+	/bin/sh /tmp/wp_redis_config.sh && \
+	rm /tmp/wp_redis_config.sh
 
 ENTRYPOINT ["/bin/sh", "/tmp/wp_entrypoint.sh"]
 CMD ["php-fpm82", "-F"]
