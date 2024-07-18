@@ -1,28 +1,25 @@
-
-all: mac
+all: dir
 	docker compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d
 
-build: mac
+build: dir
 	docker compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d --build
 
 down:
-	docker compose -f ./srcs/docker-compose.yml --env-file srcs/.env down
+	docker compose -f ./srcs/docker-compose.yml --env-file srcs/.env down -v
 
-re:
-	docker compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d --build
+re: clean
+	docker compose -f ./srcs/docker-compose.yml --env-file srcs/.env up -d
 
-mac:
-	bash srcs/make_dir.sh
+dir:
+	bash srcs/init_dir.sh
 
 clean: down
 	docker system prune -a
 
-fclean:
-	docker stop $$(docker ps -qa) || \
+fclean: down
 	docker system prune --all --force --volumes
 	docker network prune --force
 	docker volume prune --force
-	rm -rf /Users/seongwol/Documents/volume/wordpress/data
-	rm -rf /Users/seongwol/Documents/volume/wordpress/data
+	bash srcs/init_dir.sh --delete
 
-.PHONY	: all build down re clean fclean
+.PHONY	: all build down re clean fclean dir

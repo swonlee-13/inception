@@ -59,7 +59,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /Users/seongwol/Documents/volume/mariadb/data
+      device: ${DATA_PATH}/mariadb/data
       o: bind,rw
 
   wordpress:
@@ -67,7 +67,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /Users/seongwol/Documents/volume/wordpress/data
+      device: ${DATA_PATH}/wordpress/data
       o: bind,rw
 
 networks:
