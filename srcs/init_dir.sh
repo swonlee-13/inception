@@ -12,6 +12,7 @@ if [ "$1" == "--delete" ]; then
     sed -i.bak '/DATA_PATH=/d' srcs/.env && rm srcs/.env.bak
     rm -rf "$BASE_DIR"
     rm -rf "$BASE_DIR"
+    rm -rf "srcs/portainer-data"
     exit 0
 fi
 

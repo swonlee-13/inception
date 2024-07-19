@@ -17,7 +17,6 @@ dir:
 
 clean: down
 	@docker image ls | grep '${SRCS}-' | awk '{print $$1}' | xargs docker image rm
-
 fclean: down
 	@docker image ls | grep '${SRCS}-' | awk '{print $$1}' | xargs docker image rm
 	@docker builder prune --force

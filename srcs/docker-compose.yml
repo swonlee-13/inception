@@ -104,6 +104,15 @@ services:
     networks:
       - docker_net
 
+  flask:
+    build: ./requirements/bonus/flask
+    container_name: flask
+    restart: always
+    ports:
+      - 9090:9090
+    networks:
+      - docker_net
+
 volumes:
   mariadb:
     name: mariadb

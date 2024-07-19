@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate Excuse Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            max-width: 600px;
+            width: 90%;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .excuse {
+            font-size: 1.5em;
+            font-weight: 300;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .excuse-count {
+            font-size: 0.9em;
+            margin-top: 20px;
+            opacity: 0.7;
+        }
+        .funny-button {
+            background-color: #ff4081;
+            margin-top: 20px;
+        }
+        .funny-button:hover {
+            background-color: #e91e63;
+        }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ultimate Excuse Generator</h1>
+        <div class="excuse">{{ excuse }}</div>
+        <button onclick="location.reload()">Get Another Excuse</button>
+        <form method="POST">
+            <input type="text" name="custom_excuse" placeholder="Add your own excuse">
+            <button type="submit">Add Excuse</button>
+        </form>
+        <p class="excuse-count">Total excuses: {{ excuse_count }}</p>
+    </div>
+    <script>
+        // Add confetti effect when getting a new excuse
+        function shootConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.width = '10px';
+                confetti.style.height = '10px';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.position = 'absolute';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = '-10px';
+                confetti.style.borderRadius = '50%';
+                document.body.appendChild(confetti);
+
+                const animation = confetti.animate([
+                    { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                    { transform: `translateY(${window.innerHeight}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: Math.random() * 3000 + 2000,
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+                });
+
+                animation.onfinish = () => confetti.remove();
+            }
+        }
+
+        document.querySelector('button').addEventListener('click', shootConfetti);
+        function doFunnyThings() {
+            const funnyActions = [
+                () => {
+                    document.body.style.animation = 'shake 0.5s';
+                    document.body.style.animationIterationCount = 'infinite';
+                    setTimeout(() => { document.body.style.animation = ''; }, 2000);
+                },
+                () => {
+                    const elements = document.querySelectorAll('*');
+                    elements.forEach(el => {
+                        el.style.transform = `rotate(${Math.random() * 360}deg)`;
+                        setTimeout(() => { el.style.transform = ''; }, 2000);
+                    });
+                },
+                () => {
+                    const originalColor = document.body.style.background;
+                    const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
+                    let i = 0;
+                    const intervalId = setInterval(() => {
+                        document.body.style.background = colors[i % colors.length];
+                        i++;
+                    }, 200);
+                    setTimeout(() => {
+                        clearInterval(intervalId);
+                        document.body.style.background = originalColor;
+                    }, 3000);
+                },
+                () => {
+                    const audio = new Audio('https://www.myinstants.com/media/sounds/epic-sax-guy-plays-for-10-hours.mp3');
+                    audio.play();
+                    setTimeout(() => { audio.pause(); }, 5000);
+                },
+                () => {
+                    const emojis = ['😂', '🤪', '🎉', '🦄', '🌈', '🍕', '🐱'];
+                    for (let i = 0; i < 50; i++) {
+                        const emoji = document.createElement('div');
+                        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                        emoji.style.position = 'fixed';
+                        emoji.style.left = `${Math.random() * 100}vw`;
+                        emoji.style.top = `${Math.random() * 100}vh`;
+                        emoji.style.fontSize = '2em';
+                        document.body.appendChild(emoji);
+                        setTimeout(() => { emoji.remove(); }, 3000);
+                    }
+                }
+            ];
+
+            const randomAction = funnyActions[Math.floor(Math.random() * funnyActions.length)];
+            randomAction();
+        }
+   
+   </script>
+</body>
+</html>
