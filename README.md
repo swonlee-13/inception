@@ -17,7 +17,7 @@
 2. FTP server
 3. Adminer
 4. My own static webpage server
-5. One more service of my choice
+5. One more service of my choice -> (I selected flask server because I never used python before) 
 
 # Caution
 This project only runs in Linux / Mac Os.
