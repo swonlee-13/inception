@@ -1,12 +1,11 @@
 #!/bin/bash
 
-VOLUME_NAME=$1
 ENV_FILE="srcs/.env"
 
 
 if [ "$(uname)" == "Darwin" ]; then
     # macOS
-    BASE_DIR="/Users/$USER/Documents/$VOLUME_NAME"
+    BASE_DIR="/Users/$USER/data"
 else
     # Linux
     BASE_DIR="/home/$USER/data"
