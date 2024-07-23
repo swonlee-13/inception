@@ -3,7 +3,7 @@ VOLUME = inception
 DOCKER_COMPOSE := $(shell if command -v docker-compose >/dev/null 2>&1; then echo "docker-compose"; else echo "docker compose"; fi)
 
 all: dir
-	sudo -E $(DOCKER_COMPOSE) -f ./${SRCS}/docker-compose.yml up -d
+	@sudo -E $(DOCKER_COMPOSE) -f ./${SRCS}/docker-compose.yml up -d
 
 build: dir
 	@sudo -E $(DOCKER_COMPOSE) -f ./${SRCS}/docker-compose.yml up -d --build
