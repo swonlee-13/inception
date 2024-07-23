@@ -23,5 +23,5 @@
 # Caution
 1. This project only runs in Linux / Mac Os.
 
-# info 
+# Info 
 1. I put my example .env file at srcs/ . You can change it if you want.
