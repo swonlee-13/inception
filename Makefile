@@ -1,6 +1,6 @@
 SRCS = srcs
 VOLUME = inception
-DOCKER_COMPOSE := $(shell command -v docker-compose || echo "docker compose")
+DOCKER_COMPOSE := $(shell if command -v docker-compose >/dev/null 2>&1; then echo "docker-compose"; else echo "docker compose"; fi)
 
 all: dir
 	sudo -E $(DOCKER_COMPOSE) -f ./${SRCS}/docker-compose.yml up -d
