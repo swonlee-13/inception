@@ -19,5 +19,9 @@
 4. My own static webpage server
 5. One more service of my choice -> (I selected flask server because I never used python before) 
 
+
 # Caution
-This project only runs in Linux / Mac Os.
+1. This project only runs in Linux / Mac Os.
+
+# info 
+1. I put my example .env file at srcs/ . You can change it if you want.
