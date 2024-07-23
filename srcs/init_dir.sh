@@ -1,16 +1,14 @@
 #!/bin/bash
 
-MYUSER=$USER
-
 if [ "$(uname)" == "Darwin" ]; then
     # macOS
-    BASE_DIR="/Users/$MYUSER/Documents/inception_volume"
+    BASE_DIR="/Users/$USER/Documents/"$1""
 else
     # Linux
-    BASE_DIR="/home/$MYUSER/data"
+    BASE_DIR="/home/$USER/data"
 fi
 
-if [ "$1" == "--delete" ]; then
+if [ "$2" == "--delete" ]; then
     echo "Deleting volume..."
     rm -rf "$BASE_DIR"
     rm -rf "$BASE_DIR"
