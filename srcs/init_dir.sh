@@ -1,24 +1,24 @@
 #!/bin/bash
 
+MYUSER=$USER
+
 if [ "$(uname)" == "Darwin" ]; then
     # macOS
-    BASE_DIR="/Users/$USER/Documents/volume"
+    BASE_DIR="/Users/$MYUSER/Documents/inception_volume"
 else
     # Linux
-    BASE_DIR="/home/$USER/data"
+    BASE_DIR="/home/$MYUSER/data"
 fi
 
 if [ "$1" == "--delete" ]; then
-    sed -i.bak '/DATA_PATH=/d' srcs/.env && rm srcs/.env.bak
     rm -rf "$BASE_DIR"
     rm -rf "$BASE_DIR"
-    rm -rf "srcs/portainer-data"
     exit 0
 fi
 
-if [ ! -d "/Users/seongwol/Documents/volume/wordpress/data" ]; then
-	mkdir -p $BASE_DIR/wordpress/data/
-	mkdir -p $BASE_DIR/mariadb/data
+if [ ! -d "$BASE_DIR ]; then
+	mkdir -p $BASE_DIR/wordpress/
+	mkdir -p $BASE_DIR/mariadb/
 fi
 
 if ! grep -q "DATA_PATH=" srcs/.env; then
