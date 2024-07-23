@@ -16,7 +16,7 @@ if [ "$1" == "--delete" ]; then
     exit 0
 fi
 
-if [ ! -d "$BASE_DIR ]; then
+if [ ! -d "$BASE_DIR" ]; then
 	mkdir -p $BASE_DIR/wordpress/
 	mkdir -p $BASE_DIR/mariadb/
 fi
