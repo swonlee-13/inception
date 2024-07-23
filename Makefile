@@ -1,16 +1,16 @@
 SRCS = srcs
 
 all: dir
-	@docker compose -f ./${SRCS}/docker-compose.yml up -d
+	@docker-compose -f ./${SRCS}/docker-compose.yml up -d
 
 build: dir
-	@docker compose -f ./${SRCS}/docker-compose.yml up -d --build
+	@docker-compose -f ./${SRCS}/docker-compose.yml up -d --build
 
 down:
-	@docker compose -f ./${SRCS}/docker-compose.yml down -v
+	@docker-compose -f ./${SRCS}/docker-compose.yml down -v
 
 re: clean
-	@docker compose -f ./${SRCS}/docker-compose.yml up -d
+	@docker-compose -f ./${SRCS}/docker-compose.yml up -d
 
 dir:
 	@bash ${SRCS}/init_dir.sh
