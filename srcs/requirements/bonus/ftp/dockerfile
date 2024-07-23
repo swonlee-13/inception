@@ -4,7 +4,7 @@ RUN apk update && \
 	apk upgrade && \
 	apk add --no-cache vsftpd
 
-EXPOSE 21 21000-21010
+EXPOSE 21 30000-30010
 
 COPY ./tools/vsftpd.conf /etc/vsftpd/vsftpd.conf
 COPY ./tools/setup.sh /tmp/setup.sh

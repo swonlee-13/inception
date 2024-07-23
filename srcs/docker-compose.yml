@@ -48,14 +48,8 @@ services:
     build:
       context: ./requirements/bonus/ftp
     ports:
-      - target: 21
-        published: 21
-        protocol: tcp
-        mode: host
-      - target: 30000
-        published: 30000
-        protocol: tcp
-        mode: host
+      - "21:21"
+      - "30000-30010:30000-30010"
     volumes:
       - wordpress:/var/www/html
     env_file:
@@ -119,7 +113,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ${DATA_PATH}/mariadb/data
+      device: ${DATA_PATH}/mariadb
       o: bind,rw
 
   wordpress:
@@ -127,7 +121,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ${DATA_PATH}/wordpress/data
+      device: ${DATA_PATH}/wordpress
       o: bind,rw
 
 networks:

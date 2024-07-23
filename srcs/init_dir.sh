@@ -11,8 +11,10 @@ else
 fi
 
 if [ "$1" == "--delete" ]; then
+    echo "Deleting volume..."
     rm -rf "$BASE_DIR"
     rm -rf "$BASE_DIR"
+    echo "Delete COMPLETE!!!"
     exit 0
 fi
 
@@ -27,4 +29,3 @@ if ! grep -q "DATA_PATH=" srcs/.env; then
 	fi
     echo "DATA_PATH=$BASE_DIR" >> srcs/.env
 fi
-
