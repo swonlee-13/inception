@@ -34,14 +34,14 @@ services:
     networks:
       - docker_net
   
-  # redis:
-  #   container_name: redis
-  #   build: ./requirements/bonus/redis
-  #   restart: always
-  #   networks:
-  #     - docker_net
-  #   expose:
-  #     - 6379
+  redis:
+    container_name: redis
+    build: ./requirements/bonus/redis
+    restart: always
+    networks:
+      - docker_net
+    expose:
+      - 6379
 
   ftp:
     build:
@@ -80,36 +80,36 @@ services:
     networks:
       - docker_net
 
-  # resume:
-  #   container_name: resume
-  #   restart: always
-  #   build: ./requirements/bonus/resume
-  #   ports:
-  #     - "1234:1234"
-  #   expose:
-  #     - "1234"
+  resume:
+    container_name: resume
+    restart: always
+    build: ./requirements/bonus/resume
+    ports:
+      - "1234:1234"
+    expose:
+      - "1234"
 
-  # adminer:
-  #   container_name: adminer
-  #   restart: always
-  #   build: ./requirements/bonus/adminer
-  #   ports:
-  #     - "8080:8080"
-  #   expose:
-  #     - "8080"
-  #   environment:
-  #     ADMINER_DEFAULT_SERVER: mariadb
-  #   networks:
-  #     - docker_net
+  adminer:
+    container_name: adminer
+    restart: always
+    build: ./requirements/bonus/adminer
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: mariadb
+    networks:
+      - docker_net
 
-  # flask:
-  #   build: ./requirements/bonus/flask
-  #   container_name: flask
-  #   restart: always
-  #   ports:
-  #     - 9090:9090
-  #   networks:
-  #     - docker_net
+  flask:
+    build: ./requirements/bonus/flask
+    container_name: flask
+    restart: always
+    ports:
+      - 9090:9090
+    networks:
+      - docker_net
 
 volumes:
   mariadb:
