@@ -2,10 +2,10 @@
 
 wp core install \
 	--allow-root \
-	--url="seongwol.42.fr" \
-	--title="inception" \
-	--admin_user="seongwol"  --admin_password="1234" \
-	--admin_email="gbssw13@gmail.com" \
+	--url=$DOMAIN \
+	--title=$TITLE \
+	--admin_user=$DB_USER  --admin_password=$ADMIN_PASSWORD \
+	--admin_email=$ADMIN_EMAIL \
 	--locale=ko_KR
 
 wp user create evaluator evaluator@student.42seoul.kr --user_pass=1234

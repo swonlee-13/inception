@@ -56,3 +56,4 @@ RUN	wget https://wordpress.org/latest.zip && \
 
 ENTRYPOINT ["/bin/sh", "/tmp/wp_entrypoint.sh"]
 CMD ["php-fpm82", "-F"]
+
