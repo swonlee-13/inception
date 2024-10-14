@@ -1,17 +1,16 @@
 SRCS = srcs
-DOCKER_COMPOSE := $(shell if command -v docker-compose >/dev/null 2>&1; then echo "docker-compose"; else echo "docker compose"; fi)
 
 all: dir
-	@sudo -E $(DOCKER_COMPOSE) -f ./${SRCS}/docker-compose.yml up -d
+	@sudo -E docker compose -f ./${SRCS}/docker-compose.yml up -d
 
 build: dir
-	@sudo -E $(DOCKER_COMPOSE) -f ./${SRCS}/docker-compose.yml up -d --build
+	@sudo -E docker compose -f ./${SRCS}/docker-compose.yml up -d --build
 
 down:
-	@sudo -E $(DOCKER_COMPOSE) -f ./${SRCS}/docker-compose.yml down -v
+	@sudo -E docker compose -f ./${SRCS}/docker-compose.yml down -v
 
 re: clean
-	@sudo -E $(DOCKER_COMPOSE) -f ./${SRCS}/docker-compose.yml up -d
+	@sudo -E docker compose -f ./${SRCS}/docker-compose.yml up -d
 
 dir:
 	@bash ${SRCS}/init_dir.sh
