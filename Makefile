@@ -13,16 +13,16 @@ re: clean
 	@sudo -E docker compose -f ./${SRCS}/docker-compose.yml up -d
 
 dir:
-	@bash ${SRCS}/init_dir.sh
+	@sudo -E bash ${SRCS}/init_dir.sh
 
 clean: down
 	@sudo -E docker image ls | grep '${SRCS}-' | awk '{print $$1}' | xargs docker image rm
 
 fclean: down
 	@sudo -E docker image ls | grep '${SRCS}-' | awk '{print $$1}' | xargs docker image rm
-	@sudo -E docker builder prune --force
 	@sudo -E docker network prune --force
 	@sudo -E docker volume prune --force
+	@sudo -E docker system prune --all --force
 	@bash ${SRCS}/init_dir.sh --delete
 
 .PHONY	: all build down re clean fclean dir

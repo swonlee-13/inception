@@ -11,9 +11,8 @@ else
     BASE_DIR="/home/$USER/data"
 fi
 
-if [ "$2" == "--delete" ]; then
+if [ "$1" == "--delete" ]; then
     echo "Deleting volume..."
-    rm -rf "$BASE_DIR"
     rm -rf "$BASE_DIR"
     echo "Delete COMPLETE!!!"
 
